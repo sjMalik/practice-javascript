@@ -1,0 +1,1133 @@
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
+
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
+
+
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
+
+
+Node.js EventEmitter
+Difficulty Level : Medium
+Last Updated : 13 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+Node.js uses events module to create and handle custom events. The EventEmitter class can be used to create and handle custom events module.
+The syntax to Import the events module are given below:
+
+Syntax:
+
+const EventEmitter = require('events');
+All EventEmitters emit the event newListener when new listeners are added and removeListener when existing listeners are removed. It also provide one more option:
+
+boolean captureRejections
+
+
+Default Value: false
+It automatically captures rejections.
+Listening events: Before emits any event, it must register functions(callbacks) to listen to the events.
+
+Syntax:
+
+eventEmitter.addListener(event, listener)
+eventEmitter.on(event, listener)
+eventEmitter.on(event, listener) and eventEmitter.addListener(event, listener) are pretty much similar. It adds the listener at the end of the listener’s array for the specified event. Multiple calls to the same event and listener will add the listener multiple times and correspondingly fire multiple times. Both functions return emitter, so calls can be chained.
+
+Emitting events: Every event is named event in nodejs. We can trigger an event by emit(event, [arg1], [arg2], […]) function. We can pass an arbitrary set of arguments to the listener functions.
+
+Syntax:
+
+eventEmitter.emit(event, [arg1], [arg2], [...])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+   
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+});
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+Output:
+
+First event
+Removing Listener: The eventEmitter.removeListener() takes two argument event and listener, and removes that listener from the listeners array that is subscribed to that event. While eventEmitter.removeAllListeners() removes all the listener from the array which are subscribed to the mentioned event.
+
+Syntax:
+
+eventEmitter.removeListener(event, listener)
+eventEmitter.removeAllListeners([event])
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+   
+var geek1= (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+   
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Registering geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+   
+// Removing listener geek1 that was
+// registered on the line 13
+eventEmitter.removeListener('myEvent', geek1);
+   
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+  
+// Removing all the listeners to myEvent
+eventEmitter.removeAllListeners('myEvent');
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Event occurred");
+Output:
+
+Message from geek1: Event occurred
+Message from geek2: Event occurred
+We registered two times geek1 and one time geek2. For calling eventEmitter.removeListener(‘myEvent’, geek1) one instance of geek1 will be removed. Finally, removing all listener by using removeAllListeners() method that will remove all listeners to myEvent.
+
+Special Events: All EventEmitter instances emit the event ‘newListener’ when new listeners are added and ‘removeListener’ existing listeners are removed.
+
+Event: ‘newListener’ The EventEmitter instance will emit its own ‘newListener’ event before a listener is added to its internal array of listeners. Listeners registered for the ‘newListener’ event will be passed to the event name and reference to the listener being added. The event ‘newListener’ is triggered before adding the listener to the array.
+eventEmitter.once( 'newListener', listener)
+eventEmitter.on( 'newListener', listener)
+Event: ‘removeListener’ The ‘removeListener’ event is emitted after a listener is removed.
+eventEmitter.once( ‘removeListener’, listener)
+eventEmitter.on( 'removeListener’, listener)
+Event: ‘error’ When an error occurs within an EventEmitter instance, the typical action is for an ‘error’ event to be emitted. If an EventEmitter does not have at least one listener registered for the ‘error’ event, and an ‘error’ event is emitted, the error is thrown, a stack trace is printed, and the Node.js process exits.
+eventEmitter.on('error', listener)
+Example:
+
+// Importing events
+const EventEmitter = require('events');
+  
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+  
+// Register to error
+eventEmitter.on('error', (err) => {
+    console.error('Attention! There was an error');
+});
+  
+// Register to newListener
+eventEmitter.on( 'newListener', (event, listener) => {
+    console.log(`The listener is added to ${event}`);
+});
+  
+// Register to removeListener
+eventEmitter.on( 'removeListener', (event, listener) => {
+    console.log(`The listener is removed from ${event}`);
+});
+  
+// Declaring listener geek1 to myEvent1
+var geek1  = (msg) => {
+    console.log("Message from geek1: " + msg);
+};
+  
+// Declaring listener geek2 to myEvent2
+var geek2 = (msg) => {
+    console.log("Message from geek2: " + msg);
+};
+  
+// Listening to myEvent with geek1 and geek2
+eventEmitter.on('myEvent', geek1);
+eventEmitter.on('myEvent', geek2);
+  
+// Removing listener
+eventEmitter.off('myEvent', geek1);
+  
+// Triggering myEvent
+eventEmitter.emit('myEvent', 'Event occurred');
+  
+// Triggering error
+eventEmitter.emit('error', new Error('Attention!'));
+Output:
+
+The listener is added to removeListener
+The listener is added to myEvent
+The listener is added to myEvent
+The listener is removed from myEvent
+Message from geek2: Event occurred
+Attention! There was an error
+Reference: https://nodejs.org/api/events.html#events_class_eventemitter
+
+
+
+3
+
+Related Articles
+1.
+Difference Between EventEmitter and NodeEventTarget
+2.
+EventEmitter Object in Node.js
+3.
+What is EventEmitter in Node.js ?
+4.
+How the single threaded non blocking IO model works in NodeJS ?
+5.
+Email Verification using OTP in NodeJS
+6.
+NodeJS process.nextTick() Method
+7.
+Create Newsletter app using MailChimp and NodeJS
+8.
+How to make to do list using Nodejs ?
+9.
+How to kill all processes in NodeJS?
+10.
+NodeJS sign.sign(privateKey[, outputEncoding])
