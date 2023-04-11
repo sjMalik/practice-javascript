@@ -5,5 +5,19 @@ function closureExample() {
     }
 }
 
-let print = closureExample();
-console.log(print)
+// let print = closureExample();
+console.log(closureExample()());
+
+
+// Another example
+function x(){
+    let a = 7;
+
+    function y(){
+        console.log(a);
+    }
+    return y;
+}
+
+const z = x();
+z();
