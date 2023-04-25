@@ -1,14 +1,13 @@
-const http = require("http");
+const http = require('http');
+const host = 'localhost';
+const port = 3000;
 
-const server = http.createServer((req, res) => {
-    if (req.url === '/') {
-        res.write("Hello World from Nodejs");
-        res.end();
-    } else {
-        res.write("Request from other domain");
-        res.end();
-    }
-});
+const server = http.createServer((req, res)=> {
+    res.statusCode = 200;
+    res.setHeader('Content-type', 'text/plain');
+    res.end('Hello World')
+})
 
-server.listen(3000);
-
+server.listen(port, host, ()=> {
+    console.log(`Server running at http://${host}:${port}`)
+})
