@@ -114,4 +114,41 @@ We simply wrap a function inside a function, which means we are going to return 
 
 Reference: https://www.geeksforgeeks.org/what-is-currying-function-in-javascript/
 
+## Chai Documentation
+### Expect
+```
+var expect = require('chai').expect
+  , foo = 'bar'
+  , beverages = { tea: [ 'chai', 'matcha', 'oolong' ] };
+
+expect(foo).to.be.a('string');
+expect(foo).to.equal('bar');
+expect(foo).to.have.lengthOf(3);
+expect(beverages).to.have.property('tea').with.lengthOf(3);
+```
+### Should
+```
+var should = require('chai').should() //actually call the function
+  , foo = 'bar'
+  , beverages = { tea: [ 'chai', 'matcha', 'oolong' ] };
+
+foo.should.be.a('string');
+foo.should.equal('bar');
+foo.should.have.lengthOf(3);
+beverages.should.have.property('tea').with.lengthOf(3);
+```
+```
+var should = require('chai').should();
+db.get(1234, function (err, doc) {
+  should.not.exist(err);
+  should.exist(doc);
+  doc.should.be.an('object');
+});
+```
+
+
+Reference: https://www.chaijs.com/guide/styles/
+
+
+
 
