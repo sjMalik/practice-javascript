@@ -136,6 +136,7 @@ foo.should.be.a('string');
 foo.should.equal('bar');
 foo.should.have.lengthOf(3);
 beverages.should.have.property('tea').with.lengthOf(3);
+beverages.should.have.property('tea').with.valueOf([ 'chai', 'matcha', 'oolong' ]);
 ```
 ```
 var should = require('chai').should();
