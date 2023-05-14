@@ -150,6 +150,38 @@ db.get(1234, function (err, doc) {
 
 Reference: https://www.chaijs.com/guide/styles/
 
+## Call, Apply and Bind
+### apply()
+The apply() method is an important method of the function prototype and is used to call other functions with a provided this keyword value and arguments provided in the form of array or an array like object.
+```
+function.apply(this, [argumentsArray])
+```
+### call()
+The call() method is used to call a function with a given this and arguments provided to it individually. This is very similar to apply, the only difference being that apply takes arguments in the form of an array or array-like objects, and here the arguments are provided individually.
+```
+function.call(this, arg1, arg2,...)
+```
+### bind()
+The bind() method creates a new function that, when called, has its this keyword set to the provided value, with a given sequence of arguments preceding any provided when the new function is called.
+The bind function is much like the call function, with the main difference being that bind returns a new function whereas call does not.
+```
+const otherFun = function.bind(this, arg1, arg2,...);
+otherFun();
+```
+```
+const employee = {
+    name: 'Surajit'
+};
+
+function invite(greetings1, greetings2) {
+    console.log(`${greetings1} ${this.name} ${greetings2}`)
+};
+
+invite.call(employee, 'Hi', 'How are you?');
+invite.apply(employee, ['Hi', 'How are you?']);
+invite.bind(employee, 'Hi', 'How are you?')();
+```
+
 
 
 

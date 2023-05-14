@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 describe('Simple Calculation', ()=> {
     before(()=> {
-        console.log('This will execute once before all the tasks')
+        console.log('This will execute once before all the tasks\n')
     });
     beforeEach(()=> {
         console.log('This will execute before every test')
@@ -26,7 +26,7 @@ describe('Simple Calculation', ()=> {
     });
 
     afterEach(()=> {
-        console.log('This will execute after each test')
+        console.log('This will execute after each test\n')
     });
     after(()=> {
         console.log('This will execute after all the tests');
