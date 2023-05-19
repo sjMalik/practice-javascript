@@ -1,19 +1,71 @@
-# Javascrpit Basics
+# Javascrpit & NodeJS Basics
 
 ## ES6 Concepts
-### 1. Let and Const
-- Scope of Var
-    - Before the advent of ES6, var declarations ruled. There are issues associated with variables declared with var. Scope essentially means where these variables are available for use. var declarations are globally scoped or function/locally scoped. The scope is global when a var variable is declared outside a function. This means that any variable that is declared with var outside a function block is available for use in the whole window.var is function scoped when it is declared within a function. This means that it is available and can be accessed only within that function.
-- var variables can be re-declared and updated
-- Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. So var variables are hoisted to the top of their scope and initialized with a value of undefined.
-- Let and Const are block scoped
-    - A block is a chunk of code bounded by {}. A block lives in curly braces. Anything within curly braces is a block. So a variable declared in a block with let  is only available for use within that block.
-- let can be updated but not re-declared
-    - Just like var,  a variable declared with let can be updated within its scope. Unlike var, a let variable cannot be re-declared within its scope. 
-- Hoisting of let and const
-    - Just like  var, let & const declarations are hoisted to the top. Unlike var which is initialized as undefined, the let and const keyword is not initialized. So if you try to use a let variable before declaration, you'll get a Reference Error.
-- const cannot be updated or re-declared
-    - This means that the value of a variable declared with const remains the same within its scope. It cannot be updated or re-declared. So if we declare a variable with const
+ 1. Let and Const
+ 2. Arrow Functiion
+ 3. Rest Parameter
+ 4. Spread Operator
+ 5. Class
+ 6. Template Literals
+ 7. Object and Array Destruction etc.
+* Let and Const
+    - Scope of Var
+        - Before the advent of ES6, var declarations ruled. There are issues associated with variables declared with var. Scope essentially means where these variables are available for use. var declarations are globally scoped or function/locally scoped. The scope is global when a var variable is declared outside a function. This means that any variable that is declared with var outside a function block is available for use in the whole window.var is function scoped when it is declared within a function. This means that it is available and can be accessed only within that function.
+    - var variables can be re-declared and updated
+    - Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. So var variables are hoisted to the top of their scope and initialized with a value of undefined.
+    - Let and Const are block scoped
+        - A block is a chunk of code bounded by {}. A block lives in curly braces. Anything within curly braces is a block. So a variable declared in a block with let  is only available for use within that block.
+    - let can be updated but not re-declared
+        - Just like var,  a variable declared with let can be updated within its scope. Unlike var, a let variable cannot be re-declared within its scope. 
+    - Hoisting of let and const
+        - Just like  var, let & const declarations are hoisted to the top. Unlike var which is initialized as undefined, the let and const keyword is not initialized. So if you try to use a let variable before declaration, you'll get a Reference Error.
+    - const cannot be updated or re-declared
+        - This means that the value of a variable declared with const remains the same within its scope. It cannot be updated or re-declared. So if we declare a variable with const
+* Arrow Functiion
+    - It is a new feature introduced in ES6 that is a more concise syntax for writing function expressions. It allows you to create functions more cleanly compared to regular functions. There is no declaration approach here, we can write by using Function expressions only.
+* Rest Parameters
+    - The rest parameter syntax allows us to represent an indefinite number of arguments as an array. With the help of a rest parameter a function can be called with any number of arguments, no matter how it was defined. 
+    ```
+    function add(...nums) {
+        let sum = 0;
+        for(let num of nums){
+            sum+= Number(num);
+        }
+        retutn sum
+    }
+    ```
+* Spread Operator
+    - The spread operator (...) helps you expand iterables into individual elements.
+    ```
+    const a = [1,2,3];
+    const b = [4,5,6];
+    console.log([...a, ...b]); // [1,2,3, 4,5,6]
+    ```
+* Example
+```
+const employee = {
+    first_name: 'Surajit',
+    age: 20
+};
+
+console.log({...employee, age: 29});
+const {first_name, ...rest} = employee;
+console.log(first_name);
+console.log(rest);
+```
+* Class
+    - ES6 introduced classes in javascript. Classes in javascript can be used to create new Objects with the help of a constructor, each class can only have one constructor inside it. 
+    ```
+    class Vehicle {
+        constructor(name, engine){
+            this.name = name;
+            this.engine = engine;
+        }
+    }
+
+    const bike = new Vehicle('Yamaha FZ', '149 cc');
+    ```
+
 
 Reference: https://www.freecodecamp.org/news/var-let-and-const-whats-the-difference/
 
@@ -150,6 +202,9 @@ db.get(1234, function (err, doc) {
 
 Reference: https://www.chaijs.com/guide/styles/
 
+### describe() and it()
+The it call identifies each individual tests but by itself it does not tell Mocha anything about how your test suite is structured. How you use the describe call is what gives structure to your test suite.
+
 ## Call, Apply and Bind
 ### apply()
 The apply() method is an important method of the function prototype and is used to call other functions with a provided this keyword value and arguments provided in the form of array or an array like object.
@@ -181,6 +236,54 @@ invite.call(employee, 'Hi', 'How are you?');
 invite.apply(employee, ['Hi', 'How are you?']);
 invite.bind(employee, 'Hi', 'How are you?')();
 ```
+
+## What is Node.JS
+Node.JS is an open-source as well as JavaScript runtime environment. As it supports cross-platform, you can run Node.JS anywhere, whether it is Windows, Linux, or macOS. Node.JS is a platform that runs on the JavaScript engine.
+
+By using Node.JS, you can build dynamic page content. Also, you can open, close, read, write, modify, create and delete files on the server.
+
+Know that all APIs of Node.JS are asynchronous. In other words, they are non-blocking APIs. Node.JS is an asynchronous event-driven runtime environment with which you can develop scalable network applications.
+
+Node.JS uses a single-threaded model, but at the same time, they are highly scalable. What’s more! They don't buffer any data, but they release data in chunks.
+
+
+## NodeJS Middleware
+Middleware is nothing but a function that has access to response objects, request objects, and the next middleware function. It exists in between the request and response cycles of Node.JS execution. With middleware Node.JS, we can do a multitude of things. To begin with, we can run any codes with middleware functions. Also, we can make changes in response and request objects. We can end the request and response cycle in Node.JS execution. Further, we can call the next middleware function in the queue for Node.JS execution.
+
+### Next() function
+The next ( ) function plays a vital role in applications' request and response cycle. It is a middleware function that runs the next middleware function once it is invoked. In other words, the Next function is invoked if the current middleware function doesn’t end the request and response cycle. It is essential to note that no middleware function should be hanging in the queue.
+
+There are many types of node.JS middleware, such as application-level, router-level, built-in, error-handling, and third-party middleware.
+
+* application-level - Know that every GET and POST call needs authentication. So, if you need to authenticate GET and POST calls, you can develop authentication middleware. 
+* router-level - By using the `express.Router()` function, this middleware supports creating and managing instances. 
+* built-in
+    - Static: They are functions that act as static assets to applications. HTML files and images are a few examples of static assets.
+    - JSON: This function processes incoming requests along with the JSON payloads.
+    - Express.URL-encoded: This function processes incoming requests along with URL-encoded payloads.
+1. Morgan - Logger
+2. Cors - Cross Origin Resourse Sharing
+3. Cookie Parser - Parse Cookie header and populate req.cookies with an object keyed by the cookie names. Optionally you may enable signed cookie support by passing a secret string, which assigns req.secret so it may be used by other middleware.
+4. Cache - Caching the resposne
+5. JSON - Allow json request body
+6. URL-Encoded - Process incoming request along with URL-encoded payloads
+7. Error Handling - Handle any error
+    ```
+    // error handler
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.json({
+            message: err.message,
+            error: req.app.get('env') === 'development' ? err : {}
+        })
+    });
+    ```
+8. Authorization
+    ```
+    app.use('/users', isLoggedIn, usersRouter);
+    ```
+9. 
+
 
 
 
