@@ -256,12 +256,28 @@ The next ( ) function plays a vital role in applications' request and response c
 There are many types of node.JS middleware, such as application-level, router-level, built-in, error-handling, and third-party middleware.
 
 * application-level - Know that every GET and POST call needs authentication. So, if you need to authenticate GET and POST calls, you can develop authentication middleware. 
+    ```
+    router.use(middleware.isAuthenticated);
+    ```
 * router-level - By using the `express.Router()` function, this middleware supports creating and managing instances. 
 * built-in
     - Static: They are functions that act as static assets to applications. HTML files and images are a few examples of static assets.
+    ```
+    app.use(express.static('public'));
+    ```
     - JSON: This function processes incoming requests along with the JSON payloads.
+    ```
+    app.use(express.json());
+    ```
     - Express.URL-encoded: This function processes incoming requests along with URL-encoded payloads.
+    ```
+    app.use(express.urlencoded({ extended: true }));
+    ```
 1. Morgan - Logger
+    ```
+    const logger = require('morgan');
+    app.use(logger('dev'))
+    ```
 2. Cors - Cross Origin Resourse Sharing
 3. Cookie Parser - Parse Cookie header and populate req.cookies with an object keyed by the cookie names. Optionally you may enable signed cookie support by passing a secret string, which assigns req.secret so it may be used by other middleware.
 4. Cache - Caching the resposne
@@ -282,7 +298,8 @@ There are many types of node.JS middleware, such as application-level, router-le
     ```
     app.use('/users', isLoggedIn, usersRouter);
     ```
-9. 
+9. Express Slowdown
+10. Express Rate Limiter
 
 
 
