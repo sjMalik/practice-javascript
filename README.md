@@ -225,12 +225,13 @@ otherFun();
 ```
 ```
 const employee = {
-    name: 'Surajit'
-};
+    name: "Surajit Malik"
+}
 
-function invite(greetings1, greetings2) {
+// Dont use arrow function here as it dont have `this`
+const invite = function (greetings1, greetings2) {
     console.log(`${greetings1} ${this.name} ${greetings2}`)
-};
+}
 
 invite.call(employee, 'Hi', 'How are you?');
 invite.apply(employee, ['Hi', 'How are you?']);
