@@ -199,6 +199,11 @@ db.get(1234, function (err, doc) {
 });
 ```
 
+**Jest**
+ Its using for tests. It will find any file that has the name test in it so we dont need any separate folder to keep the test files. In terms of setup its important to have the express app defined and exported from its own file. Dont mix with index beacuse we need it for testing. So it should be standalone
+
+ [Example](https://github.com/sjMalik/typescript-express/blob/main/src/api/todos/todos.test.ts)
+
 
 Reference: https://www.chaijs.com/guide/styles/
 
